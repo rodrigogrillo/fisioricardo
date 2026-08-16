@@ -1,0 +1,43 @@
+.main-nav a.active { color: var(--teal-dark); }
+
+.blog-hero { padding-top: 64px; padding-bottom: 24px; }
+.blog-hero h1 { font-size: clamp(1.9rem, 3.4vw, 2.6rem); max-width: 18ch; }
+
+.posts-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.posts-loading, .posts-empty { color: var(--navy-soft); text-align: center; padding: 40px 0; grid-column: 1 / -1; }
+
+.post-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.post-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -24px rgba(39,63,75,.3); border-color: var(--teal); }
+.post-card-image { height: 170px; background-size: cover; background-position: center; background-color: var(--teal-10); }
+.post-card-image--empty { background: linear-gradient(135deg, var(--teal-10), var(--bg)); }
+.post-card-body { padding: 22px; }
+.post-card-date { font-size: .78rem; font-weight: 700; color: var(--teal-dark); text-transform: uppercase; letter-spacing: .04em; }
+.post-card-body h2 { font-size: 1.15rem; margin: .5em 0 .4em; }
+.post-card-body p { font-size: .92rem; margin: 0; }
+
+/* Post individual */
+.wrap-narrow { max-width: 760px; }
+.post-back { display: inline-block; margin-bottom: 24px; font-weight: 600; font-size: .9rem; color: var(--navy-soft); }
+.post-back:hover { color: var(--teal-dark); }
+.post-article h1 { font-size: clamp(1.9rem, 3.2vw, 2.5rem); margin-top: .3em; }
+.post-cover-img { width: 100%; border-radius: var(--radius); margin: 24px 0; }
+.post-body { font-size: 1.05rem; line-height: 1.75; color: var(--navy-soft); }
+.post-body h2, .post-body h3 { font-family: var(--font-display); color: var(--navy); margin-top: 1.4em; }
+.post-body p { margin-bottom: 1.2em; }
+.post-body img { border-radius: var(--radius); }
+.post-body a { color: var(--teal-dark); text-decoration: underline; }
+
+@media (max-width: 900px) { .posts-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 640px) { .posts-grid { grid-template-columns: 1fr; } }

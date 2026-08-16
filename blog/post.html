@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="pageTitle">Artigo | Ricardo Grillo Fisioterapia & Quiropraxia</title>
+<meta name="description" id="pageDescription" content="Artigo do blog de Ricardo Grillo Fisioterapia & Quiropraxia.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="blog.css">
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a href="../index.html" class="brand">
+      <img src="../assets/logo.png" alt="Ricardo Grillo — Fisioterapia &amp; Quiropraxia" class="brand-logo">
+    </a>
+    <nav class="main-nav">
+      <a href="../index.html#sobre">Sobre</a>
+      <a href="../index.html#servicos">Serviços</a>
+      <a href="index.html" class="active">Blog</a>
+      <a href="../index.html#contato">Contato</a>
+    </nav>
+    <a class="btn btn-whatsapp header-cta" href="https://wa.me/5516997030536" target="_blank" rel="noopener">Agendar avaliação</a>
+  </div>
+</header>
+
+<main>
+  <article class="section post-article">
+    <div class="wrap wrap-narrow">
+      <a href="index.html" class="post-back">&larr; Voltar para o blog</a>
+      <p id="postDate" class="eyebrow"></p>
+      <h1 id="postTitle">Carregando…</h1>
+      <div id="postCover"></div>
+      <div id="postBody" class="post-body"></div>
+    </div>
+  </article>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <img src="../assets/logo.png" alt="Ricardo Grillo — Fisioterapia &amp; Quiropraxia" class="footer-logo">
+    <p>&copy; <span id="year"></span> Ricardo Grillo Fisioterapia &amp; Quiropraxia · Araraquara/SP</p>
+  </div>
+</footer>
+
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<script src="blog-data.js"></script>
+<script>
+(async function () {
+  const params = new URLSearchParams(window.location.search);
+  const slug = params.get('slug');
+  const titleEl = document.getElementById('postTitle');
+  const dateEl = document.getElementById('postDate');
+  const bodyEl = document.getElementById('postBody');
+  const coverEl = document.getElementById('postCover');
+
+  if (!slug) {
+    titleEl.textContent = 'Artigo não encontrado';
+    return;
+  }
+  try {
+    const post = await fetchPost(slug); // definido em blog-data.js
+    if (!post) {
+      titleEl.textContent = 'Artigo não encontrado';
+      bodyEl.innerHTML = '<p>Esse artigo não existe ou foi removido.</p>';
+      return;
+    }
+    document.getElementById('pageTitle').textContent = post.title + ' | Ricardo Grillo';
+    document.getElementById('pageDescription').setAttribute('content', post.excerpt || post.title);
+    titleEl.textContent = post.title;
+    dateEl.textContent = post.date ? new Date(post.date).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' }) : '';
+    if (post.cover) {
+      coverEl.innerHTML = `<img src="${post.cover}" alt="${post.title}" class="post-cover-img">`;
+    }
+    bodyEl.innerHTML = marked.parse(post.body || '');
+  } catch (err) {
+    titleEl.textContent = 'Erro ao carregar o artigo';
+    console.error(err);
+  }
+})();
+</script>
+</body>
+</html>

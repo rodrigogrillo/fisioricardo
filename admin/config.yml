@@ -1,0 +1,25 @@
+backend:
+  name: github
+  repo: rodrigogrillo/fisioricardo
+  branch: main
+  base_url: https://fisioricardo.vercel.app
+  auth_endpoint: api/auth
+
+media_folder: "assets/blog"
+public_folder: "/assets/blog"
+
+publish_mode: simple
+
+collections:
+  - name: "posts"
+    label: "Posts do Blog"
+    label_singular: "Post"
+    folder: "content/posts"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Título", name: "title", widget: "string" }
+      - { label: "Data de publicação", name: "date", widget: "datetime", format: "YYYY-MM-DD HH:mm" }
+      - { label: "Imagem de capa", name: "cover", widget: "image", required: false }
+      - { label: "Resumo curto", name: "excerpt", widget: "text", hint: "Aparece na listagem do blog, 1-2 frases." }
+      - { label: "Conteúdo", name: "body", widget: "markdown" }

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog | Ricardo Grillo Fisioterapia & Quiropraxia</title>
+<meta name="description" content="Artigos e dicas sobre fisioterapia, quiropraxia, dor e recuperação funcional.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="blog.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a href="../index.html" class="brand">
+      <img src="../assets/logo.png" alt="Ricardo Grillo — Fisioterapia &amp; Quiropraxia" class="brand-logo">
+    </a>
+    <nav class="main-nav">
+      <a href="../index.html#sobre">Sobre</a>
+      <a href="../index.html#servicos">Serviços</a>
+      <a href="index.html" class="active">Blog</a>
+      <a href="../index.html#contato">Contato</a>
+    </nav>
+    <a class="btn btn-whatsapp header-cta" href="https://wa.me/5516997030536" target="_blank" rel="noopener">Agendar avaliação</a>
+  </div>
+</header>
+
+<main>
+  <section class="section blog-hero">
+    <div class="wrap">
+      <p class="eyebrow">Blog</p>
+      <h1>Artigos sobre dor, movimento e recuperação</h1>
+      <p class="section-lede">Conteúdo escrito para ajudar você a entender melhor o seu corpo e seu tratamento.</p>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="wrap">
+      <div id="postsGrid" class="posts-grid">
+        <p class="posts-loading">Carregando artigos…</p>
+      </div>
+      <p id="postsEmpty" class="posts-empty" hidden>Ainda não há artigos publicados. Volte em breve!</p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <img src="../assets/logo.png" alt="Ricardo Grillo — Fisioterapia &amp; Quiropraxia" class="footer-logo">
+    <p>&copy; <span id="year"></span> Ricardo Grillo Fisioterapia &amp; Quiropraxia · Araraquara/SP</p>
+  </div>
+</footer>
+
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<script src="blog-data.js"></script>
+<script>
+(async function () {
+  const grid = document.getElementById('postsGrid');
+  const empty = document.getElementById('postsEmpty');
+  try {
+    const posts = await fetchPosts(); // definido em blog-data.js
+    grid.innerHTML = '';
+    if (!posts.length) {
+      grid.hidden = true;
+      empty.hidden = false;
+      return;
+    }
+    posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+    for (const post of posts) {
+      const card = document.createElement('a');
+      card.href = `post.html?slug=${encodeURIComponent(post.slug)}`;
+      card.className = 'post-card';
+      const dateStr = post.date ? new Date(post.date).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' }) : '';
+      card.innerHTML = `
+        ${post.cover ? `<div class="post-card-image" style="background-image:url('${post.cover}')"></div>` : '<div class="post-card-image post-card-image--empty"></div>'}
+        <div class="post-card-body">
+          <span class="post-card-date">${dateStr}</span>
+          <h2>${post.title}</h2>
+          <p>${post.excerpt || ''}</p>
+        </div>`;
+      grid.appendChild(card);
+    }
+  } catch (err) {
+    grid.innerHTML = '<p class="posts-loading">Não foi possível carregar os artigos agora. Tente novamente em instantes.</p>';
+    console.error(err);
+  }
+})();
+</script>
+</body>
+</html>

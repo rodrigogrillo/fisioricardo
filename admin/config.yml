@@ -2,7 +2,7 @@ backend:
   name: github
   repo: rodrigogrillo/fisioricardo
   branch: main
-  base_url: https://fisioricardo.vercel.app
+  base_url: https://fisioricardogrillo.com.br
   auth_endpoint: api/auth
 
 media_folder: "assets/blog"
